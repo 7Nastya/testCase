@@ -1,47 +1,60 @@
-import os.path
-import pickle
-
+import io
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseDownload
 import google_auth_oauthlib.flow
-from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 
+from testCase.apps.order.clients import CurrencyClient
 
-class Auth:
+
+class AuthGoogle(object):
 
     def __init__(self, client_secret_filename, scopes):
         self.client_secret = client_secret_filename
         self.scopes = scopes
         self.flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(self.client_secret, self.scopes)
-        self.flow.redirect_uris ='http://localhost:8080/'
+        self.flow.redirect_uris = 'http://localhost:8080/'
         self.creds = None
-
 
     def get_credentials(self):
         flow = InstalledAppFlow.from_client_secrets_file(self.client_secret, self.scopes)
         self.creds = flow.run_local_server(port=8080)
         return self.creds
-        # authorization_url, state = self.flow.authorization_url(
-        #     # Enable offline access so that you can refresh an access token without
-        #     # re-prompting the user for permission. Recommended for web server apps.
-        #     access_type='offline',
-        #     # Enable incremental authorization. Recommended as a best practice.
-        #     include_granted_scopes='true')
-        # return authorization_url #, state
-    #     # The file token.pickle stores the user's access and refresh tokens, and is
-    #     # created automatically when the authorization flow completes for the first
-    #     # time.
-    #     if os.path.exists('token.pickle'):
-    #         with open('token.pickle', 'rb') as token:
-    #             self.creds = pickle.load(token)
-    #
-    #     # If there are no (valid) credentials available, let the user log in.
-    #     if not self.creds or not self.creds.valid:
-    #         if self.creds and self.creds.expired and self.creds.refresh_token:
-    #             self.creds.refresh(Request())
-    #         else:
-    #             flow = InstalledAppFlow.from_client_secrets_file(self.client_secret, self.scopes)
-    #             self.creds = flow.run_local_server(port=8080)
-    #         # Save the credentials for the next run
-    #     with open('token.pickle', 'wb') as token:
-    #         pickle.dump(self.creds, token)
-    #     return self.creds
+
+
+class GoogleService(object):
+    SCOPES = [
+        'https://www.googleapis.com/auth/drive.readonly',
+        'https://www.googleapis.com/auth/drive.metadata.readonly',
+        'https://www.googleapis.com/auth/drive.file',
+        'https://www.googleapis.com/auth/drive'
+    ]
+
+    SERVICE_ACCOUNT_FILE = '/home/nas/PycharmProjects/testCase/credrntials.json'
+
+    def __init__(self):
+        self.filename = 'test.xlsx'
+
+    def download_file(self):
+        credentials = AuthGoogle(client_secret_filename=self.SERVICE_ACCOUNT_FILE, scopes=self.SCOPES).get_credentials()
+        service = build('drive', 'v3', credentials=credentials)
+        file_id = '1IeyaDsmjTpcc6QjCH6wuFLtRbz6u8e40'
+        request = service.files().get_media(fileId=file_id)
+        fh = io.FileIO(self.filename, mode='wb')
+        downloader = MediaIoBaseDownload(fh, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+            print("Download %d%%" % int(status.progress() * 100))
+
+    def get_actual_curs(self):
+        # currency = 'USD'
+        client_cyrrency = CurrencyClient().get_currency()
+        pass
+
+    def parse_file(self):
+        pass
+
+    def export_file(self):
+        self.download_file()
+        self.parse_file()

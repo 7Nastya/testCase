@@ -125,4 +125,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-GOOGLE_URL = ""
+BANK_URL = "https://cdn.cur.su/api/latest.json"
