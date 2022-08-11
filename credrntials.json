@@ -1,0 +1,13 @@
+{
+  "web": {
+    "client_id": "778592749473-e9mss3a7jckleuef1gt03hn7nt4aqtce.apps.googleusercontent.com",
+    "project_id": "smart-period-359108",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": [
+      "http://localhost:8080/"
+    ]
+  }
+}
