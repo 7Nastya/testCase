@@ -1,6 +1,6 @@
 from djmoney.models.fields import MoneyField
 from django.utils import timezone
-from moneyed import Money, RUB, USD
+from moneyed import RUB, USD
 from django.db import models
 
 
