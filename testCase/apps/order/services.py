@@ -1,4 +1,5 @@
 import io
+import os
 import openpyxl
 import google_auth_oauthlib.flow
 from googleapiclient.discovery import build
@@ -37,6 +38,8 @@ class GoogleService(object):
         self.filename = 'test.xlsx'
 
     def download_file(self):
+        path = os.path.join('/home/nas/PycharmProjects/testCase', 'test.xlsx')
+        os.remove(path)
         credentials = AuthGoogle(client_secret_filename=self.SERVICE_ACCOUNT_FILE, scopes=self.SCOPES).get_credentials()
         service = build('drive', 'v3', credentials=credentials)
         file_id = '1IeyaDsmjTpcc6QjCH6wuFLtRbz6u8e40'
