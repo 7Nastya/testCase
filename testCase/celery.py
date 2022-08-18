@@ -9,7 +9,7 @@ app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     'every-minute': {
-        'task': 'testCase.tasks.check',  # 'testCase.tasks.test_case',
+        'task': 'testCase.tasks.test_case', #'testCase.tasks.check',
         'schedule': 10.0  # crontab()
     }
 }

@@ -7,6 +7,6 @@ def test_case():
     GoogleService.export_file()
 
 
-@app.task
-def check():
-    print('I am checking your stuff')
+# @app.task
+# def check():
+#     print('I am checking your stuff')
