@@ -38,8 +38,11 @@ class GoogleService(object):
         self.filename = 'test.xlsx'
 
     def download_file(self):
-        path = os.path.join('/home/nas/PycharmProjects/testCase', 'test.xlsx')
-        os.remove(path)
+        # удаление файла
+        if os.path.exists('test.xlsx'):
+            path = os.path.join('/home/nas/PycharmProjects/testCase', 'test.xlsx')
+            os.remove(path)
+        # загрузка файла
         credentials = AuthGoogle(client_secret_filename=self.SERVICE_ACCOUNT_FILE, scopes=self.SCOPES).get_credentials()
         service = build('drive', 'v3', credentials=credentials)
         file_id = '1IeyaDsmjTpcc6QjCH6wuFLtRbz6u8e40'
@@ -61,13 +64,10 @@ class GoogleService(object):
         # Для чтения листа
         worksheet = wookbook.active
         actual_order_list_id = []
-        order_exist = Order.objects.all()
-        order_exist.delete()
 
         for i in range(1, worksheet.max_row):
             data = {}
             for col in worksheet.iter_cols(1, 4):
-
                 value = col[i].value
                 match col[i].column:
                     case (1):
@@ -89,7 +89,9 @@ class GoogleService(object):
                 order = Order.objects.create(**data)
             actual_order_list_id.append(order.id)
 
+        if actual_order_list_id:
+            Order.objects.exclude(id__in=actual_order_list_id).delete()
+
     def export_file(self):
         self.download_file()
         self.parse_file()
-        return 0
