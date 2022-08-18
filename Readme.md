@@ -30,7 +30,7 @@ https://console.cloud.google.com/apis/dashboard?project=smart-period-359108
 - Открыть полученный файл JSON
 - Скопировать значение поля "client_email"
 - В своем гугл диске для файла:
-https://docs.google.com/spreadsheets/d/1f-qZEX1k_3nj5cahOzntYAnvO4ignbyesVO7yuBdv_g/edit#gid=0
+[file](https://docs.google.com/spreadsheets/d/1f-qZEX1k_3nj5cahOzntYAnvO4ignbyesVO7yuBdv_g/edit#gid=0)
 Ввести скопированное значение и предоставить доступ на редактирование
 3. Закаченный JSON файл переименовать в credrntials.json и добавить в проект
 
