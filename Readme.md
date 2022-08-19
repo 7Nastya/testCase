@@ -43,4 +43,9 @@ https://console.cloud.google.com/apis/dashboard?project=smart-period-359108
 - python manage.py makemigrations
 - python manage.py migrate
 
+## Инструменты
+1. Сelery, Redis 
+2. Celery beat
+3. PostgreSQL
+4. API
 
